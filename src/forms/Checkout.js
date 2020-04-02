@@ -1,24 +1,14 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Paper from "@material-ui/core/Paper";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
+import React, {useState, useEff,ect} from "react";
+import { makeStyles, CssBaseline, AppBar, Toolbar, Paper, Stepper, Step, StepLabel, Button, Link } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
 import CanalPago from "./CanalPago";
 import Entrada from "./Entrada";
+import DeclaracionA from "./DeclaracionA";
 import DeclaracionB from "./DeclaracionB";
-import red from "@material-ui/core/colors/red";
 
 function Copyright() {
-  const primary = red[500];
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
@@ -70,7 +60,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const steps = [ "Datos Personales", "Grupo Familiar", "Canal de Pago", 'Entrada', 'Declaracion Jurada'];
+const steps = [
+  "Datos Personales",
+  "Grupo Familiar",
+  "Canal de Pago",
+  "Declaracion Jurada",
+  "Declaracion Jurada",
+];
 
 function getStepContent(step) {
   switch (step) {
@@ -81,9 +77,11 @@ function getStepContent(step) {
     case 2:
       return <CanalPago />;
     case 3:
-      return <Entrada />;
-      case 4:
+      return <DeclaracionA />;
+    case 4:
       return <DeclaracionB />;
+    case 5:
+      return <Entrada />;
     default:
       throw new Error("Unknown step");
   }
@@ -91,22 +89,28 @@ function getStepContent(step) {
 
 export default function Checkout() {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
-
+  const [activeStep, setActiveStep] = useState(0);
+  
   const handleNext = () => {
     setActiveStep(activeStep + 1);
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   };
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
+  
+
   };
 
+
   return (
-    <div style={{backgroundColor:'#ceedce'}}>
+    <div style={{ backgroundColor: "#efefef", minHeight: "100vh" }}>
       <CssBaseline />
       <AppBar position="absolute" color="default" className={classes.appBar}>
         <Toolbar
           style={{
+            padding:"0 4em",
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between"
@@ -120,12 +124,14 @@ export default function Checkout() {
       </AppBar>
       <main className={classes.layout}>
         <Paper className={classes.paper} elevation={3}>
-          <Typography component="h1" variant="h3" align="left">
-            ¡Bienvenido/a!
-          </Typography>
-          <Typography component="h1" variant="h4" align="left">
-            Al afiliador online del Hospital Italiano
-          </Typography>
+          {!activeStep > 0 && <div>
+            <Typography component="h1" variant="h3" align="left">
+              ¡Bienvenido/a!
+            </Typography>
+            <Typography component="h1" variant="h4" align="left">
+              Al afiliador online del Hospital Italiano
+            </Typography>
+          </div>}
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {steps.map(label => (
               <Step key={label}>
@@ -137,13 +143,19 @@ export default function Checkout() {
             {activeStep === steps.length ? (
               <React.Fragment>
                 <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
+                  Gracias por Anotarse!
                 </Typography>
                 <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
-                  confirmation, and will send you an update when your order has
-                  shipped.
+                  En breve estaremos contactandole para confirmarle la suscripcion al servicio y detalles aparejados a su cuenta.
                 </Typography>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => window.open( 'http://www.hospital-italiano.org.ar',"_self")}
+                    className={classes.button}
+                  >
+                  Volver
+                  </Button>
               </React.Fragment>
             ) : (
               <React.Fragment>
@@ -160,7 +172,9 @@ export default function Checkout() {
                     onClick={handleNext}
                     className={classes.button}
                   >
-                    {activeStep === steps.length - 1 ? "Enviar Solicitud" : "Siguiente"}
+                    {activeStep === steps.length - 1
+                      ? "Enviar Solicitud"
+                      : "Siguiente"}
                   </Button>
                 </div>
               </React.Fragment>
