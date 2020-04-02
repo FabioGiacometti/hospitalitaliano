@@ -25,14 +25,14 @@ function Copyright() {
 
 const useStyles = makeStyles(theme => ({
   appBar: {
-    position: "relative"
+    position: "fixed"
   },
   layout: {
     width: "auto",
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
-      width: 800,
+      width: "80%",
       marginLeft: "auto",
       marginRight: "auto"
     }
@@ -97,6 +97,8 @@ export default function Checkout() {
     document.documentElement.scrollTop = 0;
   };
 
+  const scrn = window.screen.width
+
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   
@@ -104,6 +106,7 @@ export default function Checkout() {
   };
 
 
+  {console.log("screen", scrn)}
   return (
     <div style={{ backgroundColor: "#efefef", minHeight: "100vh" }}>
       <CssBaseline />
@@ -117,11 +120,12 @@ export default function Checkout() {
           }}
         >
           <img src={require("../assets/images/logo.png")} alt="" />
-          <Typography variant="h6" color="inherit" noWrap>
+          <Typography variant="h6" color="inherit" noWrap style={{display: scrn > 736 ? "flex": "none"}}>
             Afiliador Online
           </Typography>
         </Toolbar>
       </AppBar>
+      <div style={{height: "80px"}}></div>
       <main className={classes.layout}>
         <Paper className={classes.paper} elevation={3}>
           {!activeStep > 0 && <div>
@@ -131,15 +135,15 @@ export default function Checkout() {
             <Typography component="h1" variant="h4" align="left">
               Al afiliador online del Hospital Italiano
             </Typography>
+
           </div>}
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {steps.map(label => (
               <Step key={label}>
-                <StepLabel>{label}</StepLabel>
+                <StepLabel style={{display: scrn > 736 ? "flex": "none"}}>{label}</StepLabel>
               </Step>
             ))}
-          </Stepper>
-          <React.Fragment>
+          </Stepper>}          <React.Fragment>
             {activeStep === steps.length ? (
               <React.Fragment>
                 <Typography variant="h5" gutterBottom>
