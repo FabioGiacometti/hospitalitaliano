@@ -1,5 +1,16 @@
-import React, {useState, useEff,ect} from "react";
-import { makeStyles, CssBaseline, AppBar, Toolbar, Paper, Stepper, Step, StepLabel, Button, Link } from "@material-ui/core";
+import React, { useState, useEff, ect } from "react";
+import {
+  makeStyles,
+  CssBaseline,
+  AppBar,
+  Toolbar,
+  Paper,
+  Stepper,
+  Step,
+  StepLabel,
+  Button,
+  Link
+} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
@@ -65,7 +76,7 @@ const steps = [
   "Grupo Familiar",
   "Canal de Pago",
   "Declaracion Jurada",
-  "Declaracion Jurada",
+  "Declaracion Jurada"
 ];
 
 function getStepContent(step) {
@@ -90,76 +101,87 @@ function getStepContent(step) {
 export default function Checkout() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
-  
+
   const handleNext = () => {
     setActiveStep(activeStep + 1);
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   };
 
-  const scrn = window.screen.width
+  const scrn = window.screen.width;
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
-  
-
   };
 
-
-  {console.log("screen", scrn)}
+  {
+    console.log("screen", scrn);
+  }
   return (
     <div style={{ backgroundColor: "#efefef", minHeight: "100vh" }}>
       <CssBaseline />
       <AppBar position="absolute" color="default" className={classes.appBar}>
         <Toolbar
           style={{
-            padding:"0 4em",
+            padding: "0 4em",
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between"
           }}
         >
           <img src={require("../assets/images/logo.png")} alt="" />
-          <Typography variant="h6" color="inherit" noWrap style={{display: scrn > 736 ? "flex": "none"}}>
+          <Typography
+            variant="h6"
+            color="inherit"
+            noWrap
+            style={{ display: scrn > 736 ? "flex" : "none" }}
+          >
             Afiliador Online
           </Typography>
         </Toolbar>
       </AppBar>
-      <div style={{height: "80px"}}></div>
+      <div style={{ height: "80px" }}></div>
       <main className={classes.layout}>
         <Paper className={classes.paper} elevation={3}>
-          {!activeStep > 0 && <div>
-            <Typography component="h1" variant="h3" align="left">
-              ¡Bienvenido/a!
-            </Typography>
-            <Typography component="h1" variant="h4" align="left">
-              Al afiliador online del Hospital Italiano
-            </Typography>
-
-          </div>}
+          {!activeStep > 0 && (
+            <div>
+              <Typography component="h1" variant="h3" align="left">
+                ¡Bienvenido/a!
+              </Typography>
+              <Typography component="h1" variant="h4" align="left">
+                Al afiliador online del Hospital Italiano
+              </Typography>
+            </div>
+          )}
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {steps.map(label => (
               <Step key={label}>
-                <StepLabel style={{display: scrn > 736 ? "flex": "none"}}>{label}</StepLabel>
+                <StepLabel style={{ display: scrn > 736 ? "flex" : "none" }}>
+                  {label}
+                </StepLabel>
               </Step>
             ))}
-          </Stepper>}          <React.Fragment>
+          </Stepper>{" "}
+          <React.Fragment>
             {activeStep === steps.length ? (
               <React.Fragment>
                 <Typography variant="h5" gutterBottom>
                   Gracias por Anotarse!
                 </Typography>
                 <Typography variant="subtitle1">
-                  En breve estaremos contactandole para confirmarle la suscripcion al servicio y detalles aparejados a su cuenta.
+                  En breve estaremos contactandole para confirmarle la
+                  suscripcion al servicio y detalles aparejados a su cuenta.
                 </Typography>
                 <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => window.open( 'http://www.hospital-italiano.org.ar',"_self")}
-                    className={classes.button}
-                  >
+                  variant="contained"
+                  color="primary"
+                  onClick={() =>
+                    window.open("http://www.hospital-italiano.org.ar", "_self")
+                  }
+                  className={classes.button}
+                >
                   Volver
-                  </Button>
+                </Button>
               </React.Fragment>
             ) : (
               <React.Fragment>
